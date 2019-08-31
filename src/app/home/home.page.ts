@@ -32,6 +32,7 @@ export class HomePage implements OnInit {
   isFinishedSelected$: Observable<boolean>;
   currentDate$: Observable<string>;
   items$: Observable<Items>;
+  dialogShown: boolean;
 
 
   constructor(
@@ -50,6 +51,7 @@ export class HomePage implements OnInit {
     this.isFinishedSelected$ = this.store.pipe(select(fromApp.getFinishedSelected));
     this.currentDate$ = this.store.pipe(select(fromApp.getCurrentDate));
     this.items$ = this.store.pipe(select(fromApp.getItems));
+    this.dialogShown = false;
   }
 
   onSetProgress() {
@@ -65,11 +67,19 @@ export class HomePage implements OnInit {
   }
 
   async showModal() {
+    this.dialogShown = true;
     const modal = await this.modalController.create({
       component: ModalPage,
       componentProps: { value: 123 },
       backdropDismiss: true,
       showBackdrop: true
+    });
+    modal.onDidDismiss().then(data => {
+      console.log(data);
+      this.dialogShown = false;
+      if (data.data) {
+        this.store.dispatch(AppActions.addItem());
+      }
     });
     return await modal.present();
   }

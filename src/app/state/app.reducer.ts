@@ -79,6 +79,18 @@ const appReducer = createReducer(
         isSelected: !state.finished.isSelected
       }
     })),
+    on(AppActions.addItem,
+      state => ({
+        ...state,
+        items: [
+           ...state.items,
+           {
+             title: 'Some new item title',
+             description: 'Some new item description',
+             isChecked: false
+            }
+          ]
+      })),
 );
 
 export function reducer(state: State | undefined, action: Action) {

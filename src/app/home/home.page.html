@@ -108,7 +108,7 @@
 
       <div class="flex-box ion-justify-content-center swipe-button-block">
         <ion-button size="large" 
-        (click)="showModal()" class="swipe-button" color="danger">
+        (click)="showModal()" class="swipe-button" color="{{dialogShown ? 'primary' : 'danger'}}">
           <ion-icon name="arrow-forward" class="ion-padding-end"></ion-icon>
           <div> Swipe to finish appointment</div>
         </ion-button>

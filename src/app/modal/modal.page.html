@@ -4,7 +4,10 @@
     <ion-icon class="ion-margin-end" slot="end" (click)="closeModal()" name="close"></ion-icon>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <div class="ion-margin center">Would you like to finish the appointment?</div>
+  <div class="center">
+    <ion-button class="ion-margin" (click)="closeModal(true)">Yes</ion-button>
+    <ion-button color="light" (click)="closeModal()" class="ion-margin">No</ion-button>
+  </div>
 </ion-content>

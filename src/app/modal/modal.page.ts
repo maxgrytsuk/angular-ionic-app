@@ -10,8 +10,8 @@ export class ModalPage {
 
   constructor(private modalController: ModalController) { }
 
-  closeModal() {
-    this.modalController.dismiss();
+  closeModal(value?: boolean) {
+    this.modalController.dismiss(value);
   }
 
 }
