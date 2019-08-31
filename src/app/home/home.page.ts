@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { Platform, ModalController } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { ModalController } from '@ionic/angular';
 
 import { State, ProgressType, Items, PROGRESS } from '../state/app.reducer';
 import * as AppActions from '../state/app.actions';
@@ -38,9 +36,7 @@ export class HomePage implements OnInit {
   constructor(
     private store: Store<State>,
     public modalController: ModalController
-  ) {}
-
-
+  ) { }
 
   ngOnInit() {
     this.progress = PROGRESS;
@@ -69,19 +65,19 @@ export class HomePage implements OnInit {
   async showModal() {
     this.dialogShown = true;
     const modal = await this.modalController.create({
-      component: ModalPage,
-      componentProps: { value: 123 },
-      backdropDismiss: true,
-      showBackdrop: true
+      component: ModalPage
     });
     modal.onDidDismiss().then(data => {
-      console.log(data);
       this.dialogShown = false;
       if (data.data) {
         this.store.dispatch(AppActions.addItem());
       }
     });
     return await modal.present();
+  }
+
+  segmentChanged($event) {
+
   }
 
 }
