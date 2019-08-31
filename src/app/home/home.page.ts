@@ -77,7 +77,8 @@ export class HomePage implements OnInit {
   }
 
   segmentChanged($event) {
-
+    this.store.dispatch(AppActions.setItemType({ itemType: $event.detail.value }));
+    // this.store.dispatch(AppActions.setItemType());
   }
 
 }

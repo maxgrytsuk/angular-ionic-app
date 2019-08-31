@@ -36,7 +36,15 @@ export const getCurrentDate = createSelector(
   (state: fromApp.State) => state.currentDate
 );
 
+export const getItemType = createSelector(
+  getAppState,
+  (state: fromApp.State) => state.itemType
+);
+
 export const getItems = createSelector(
   getAppState,
-  (state: fromApp.State) => state.items
+  getItemType,
+  (state: fromApp.State, itemType) =>
+    state.items.filter(item => item.type === itemType)
+
 );

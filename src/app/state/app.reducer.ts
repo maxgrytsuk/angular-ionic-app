@@ -13,7 +13,9 @@ const TIME_OFFSET_MIN = 60;
 
 export type ProgressType = 'In progress' | 'Done' | 'Planned';
 
-export type Items = Array<{ title: string;  description: string; isChecked: boolean; }>;
+export type Items = Array<{ type: ItemType, title: string; description: string; isChecked: boolean; }>;
+
+export type ItemType = 'logbook' | 'carePlan';
 
 export const PROGRESS: Array<ProgressType> = ['In progress', 'Done', 'Planned'];
 
@@ -28,6 +30,7 @@ export interface State {
     time: string;
     isSelected: boolean;
   };
+  itemType: ItemType;
   items: Items;
 }
 
@@ -42,13 +45,16 @@ const initialState: State = {
     time: format(addMinutes(new Date(), TIME_OFFSET_MIN), TIME_FORMAT),
     isSelected: false,
   },
+  itemType: 'logbook',
   items: [
     {
+      type: 'logbook',
       title: 'Give water every two hours',
       description: 'Needs to drink a water every two hour',
       isChecked: false
     },
     {
+      type: 'carePlan',
       title: 'Shower',
       description: 'Shower evert two hours',
       isChecked: false
@@ -71,6 +77,11 @@ const appReducer = createReducer(
         isSelected: !state.started.isSelected
       }
     })),
+  on(AppActions.setItemType,
+    (state, {itemType}) => ({
+      ...state,
+      itemType
+    })),
   on(AppActions.setFinishedSelected,
     state => ({
       ...state,
@@ -79,18 +90,19 @@ const appReducer = createReducer(
         isSelected: !state.finished.isSelected
       }
     })),
-    on(AppActions.addItem,
-      state => ({
-        ...state,
-        items: [
-           ...state.items,
-           {
-             title: 'Some new item title',
-             description: 'Some new item description',
-             isChecked: false
-            }
-          ]
-      })),
+  on(AppActions.addItem,
+    state => ({
+      ...state,
+      items: [
+        ...state.items,
+        {
+          type: 'logbook',
+          title: 'Some new item title',
+          description: 'Some new item description',
+          isChecked: false
+        }
+      ]
+    })),
 );
 
 export function reducer(state: State | undefined, action: Action) {
