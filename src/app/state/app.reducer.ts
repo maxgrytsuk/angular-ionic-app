@@ -13,9 +13,15 @@ const TIME_OFFSET_MIN = 60;
 
 export type ProgressType = 'In progress' | 'Done' | 'Planned';
 
-export type Items = Array<{ type: ItemType, title: string; description: string; isChecked: boolean; }>;
-
 export type ItemType = 'logbook' | 'carePlan';
+
+export interface Item {
+  id: string;
+  type: ItemType;
+  title: string;
+  description: string;
+  isChecked: boolean;
+};
 
 export const PROGRESS: Array<ProgressType> = ['In progress', 'Done', 'Planned'];
 
@@ -31,8 +37,12 @@ export interface State {
     isSelected: boolean;
   };
   itemType: ItemType;
-  items: Items;
+  items: Array<Item>;
 }
+
+
+const ID = () => '_' + Math.random().toString(36).substr(2, 9);
+;
 
 const initialState: State = {
   progressIndex: 0,
@@ -48,15 +58,17 @@ const initialState: State = {
   itemType: 'logbook',
   items: [
     {
+      id: ID(),
       type: 'logbook',
       title: 'Give water every two hours',
       description: 'Needs to drink a water every two hour',
       isChecked: false
     },
     {
+      id: ID(),
       type: 'carePlan',
       title: 'Shower',
-      description: 'Shower evert two hours',
+      description: 'Shower every two hours',
       isChecked: false
     }
   ]
@@ -78,10 +90,30 @@ const appReducer = createReducer(
       }
     })),
   on(AppActions.setItemType,
-    (state, {itemType}) => ({
+    (state, { itemType }) => ({
       ...state,
       itemType
     })),
+  on(AppActions.setItemChecked,
+    (state, { checkedItem }) => {
+      return {
+        ...state,
+        items: [
+          ...state.items.filter(item => item.id !== checkedItem.id),
+          {
+            ...checkedItem,
+            isChecked: !checkedItem.isChecked
+          }
+        ]
+      }
+    }),
+  on(AppActions.removeItem,
+    (state, { itemToRemove }) => {
+      return {
+        ...state,
+        items: state.items.filter(item => item.id !== itemToRemove.id)
+      }
+    }),
   on(AppActions.setFinishedSelected,
     state => ({
       ...state,
@@ -96,6 +128,7 @@ const appReducer = createReducer(
       items: [
         ...state.items,
         {
+          id: ID(),
           type: 'logbook',
           title: 'Some new item title',
           description: 'Some new item description',

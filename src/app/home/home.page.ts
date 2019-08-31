@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ModalController } from '@ionic/angular';
 
-import { State, ProgressType, Items, PROGRESS } from '../state/app.reducer';
+import { State, ProgressType, Items, PROGRESS, Item } from '../state/app.reducer';
 import * as AppActions from '../state/app.actions';
 import * as fromApp from '../state/app.selectors';
 
@@ -62,6 +62,16 @@ export class HomePage implements OnInit {
     this.store.dispatch(AppActions.setFinishedSelected());
   }
 
+  onSetChecked(checkedItem: Item) {
+    this.store.dispatch(AppActions.setItemChecked({ checkedItem }));
+  }
+
+  onRemoveItem(itemToRemove: Item) {
+    if (itemToRemove.isChecked) {
+      this.store.dispatch(AppActions.removeItem({ itemToRemove }));
+    }
+  }
+
   async showModal() {
     this.dialogShown = true;
     const modal = await this.modalController.create({
@@ -78,7 +88,6 @@ export class HomePage implements OnInit {
 
   segmentChanged($event) {
     this.store.dispatch(AppActions.setItemType({ itemType: $event.detail.value }));
-    // this.store.dispatch(AppActions.setItemType());
   }
 
 }

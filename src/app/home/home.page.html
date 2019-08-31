@@ -129,12 +129,12 @@
           <div class="item">
             <div class="title-block">
               <div class="checkbox">
-                <ion-checkbox slot="end" [(ngModel)]="item.isChecked"></ion-checkbox>
+                <ion-checkbox slot="end" (click)="onSetChecked(item)" [ngModel]="item.isChecked"></ion-checkbox>
               </div>
               <ion-text class="title">{{item.title}}</ion-text>
             </div>
             <div>
-              <ion-button size="small" color="primary">All day</ion-button>
+              <ion-button (click)="onRemoveItem(item)" size="small" color="primary">All day</ion-button>
             </div>
           </div>
           <div class="description">{{item.description}}</div>
