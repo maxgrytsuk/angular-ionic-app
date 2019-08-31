@@ -10,7 +10,7 @@ import { State, ProgressType, Items, PROGRESS } from '../state/app.reducer';
 import * as AppActions from '../state/app.actions';
 import * as fromApp from '../state/app.selectors';
 
-// import { ModalPage } from '../modal/modal.page';
+import { ModalPage } from '../modal/modal.page';
 
 @Component({
   selector: 'app-home',
@@ -35,21 +35,11 @@ export class HomePage implements OnInit {
 
 
   constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private store: Store<State>,
     public modalController: ModalController
-  ) {
-    this.initializeApp();
-  }
+  ) {}
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
-  }
+
 
   ngOnInit() {
     this.progress = PROGRESS;
@@ -75,11 +65,13 @@ export class HomePage implements OnInit {
   }
 
   async showModal() {
-    // const modal = await this.modalController.create({
-    //   component: ModalPage,
-    //   componentProps: { value: 123 }
-    // });
-    // return await modal.present();
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      componentProps: { value: 123 },
+      backdropDismiss: true,
+      showBackdrop: true
+    });
+    return await modal.present();
   }
 
 }

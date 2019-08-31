@@ -9,7 +9,7 @@ import { ModalPage } from './modal.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'modal',
     component: ModalPage
   }
 ];
