@@ -6,6 +6,7 @@ import {
 import format from 'date-fns/format';
 import addMinutes from 'date-fns/addMinutes';
 import * as AppActions from './app.actions';
+import { sortByIdDesc } from '../service/app.service';
 
 const TIME_FORMAT = 'HH-mm a';
 const DATE_FORMAT = 'EEEE, dd LLLL';
@@ -16,7 +17,7 @@ export type ProgressType = 'In progress' | 'Done' | 'Planned';
 export type ItemType = 'logbook' | 'carePlan';
 
 export interface Item {
-  id: string;
+  id: number;
   type: ItemType;
   title: string;
   description: string;
@@ -87,13 +88,15 @@ const appReducer = createReducer(
     (state, { checkedItem }) => {
       return {
         ...state,
-        items: [
-          ...state.items.filter(item => item.id !== checkedItem.id),
-          {
-            ...checkedItem,
-            isChecked: !checkedItem.isChecked
+        items: state.items.map(item => {
+          if (item.id === checkedItem.id) {
+            return {
+              ...item,
+              isChecked: !item.isChecked
+            }
           }
-        ]
+          return item;
+        })
       }
     }),
   on(AppActions.removeItem,
@@ -115,7 +118,7 @@ const appReducer = createReducer(
     (state, { item }) => {
       return {
         ...state,
-        items: [...state.items, item]
+        items: [...state.items, item].sort(sortByIdDesc)
       }
     })
 );

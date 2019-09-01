@@ -2,8 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Item, NewItem } from '../state/app.reducer';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 
+
+export const sortByIdDesc = (a, b) => {
+  return a.id < b.id ? 1 : -1;
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +17,7 @@ export class AppService {
   getItems(): Observable<Item[]> {
     return this.http.get<Item[]>('/api/items').pipe(
       tap(data => console.log(data)), // eyeball results in the console
+      map(items => items.sort(sortByIdDesc)),
       catchError(this.handleError)
     );
   }
