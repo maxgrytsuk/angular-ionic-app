@@ -46,5 +46,4 @@ export const getItems = createSelector(
   getItemType,
   (state: fromApp.State, itemType) =>
     state.items.filter(item => item.type === itemType)
-
 );

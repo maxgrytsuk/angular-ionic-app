@@ -127,9 +127,9 @@
 
         <div *ngFor="let item of (items$ | async)" class="item-block">
           <div class="item">
-            <div class="title-block">
+            <div class="title-block" (click)="onSetChecked(item)">
               <div class="checkbox">
-                <ion-checkbox slot="end" (click)="onSetChecked(item)" [ngModel]="item.isChecked"></ion-checkbox>
+                <ion-checkbox slot="end" [ngModel]="item.isChecked"></ion-checkbox>
               </div>
               <ion-text class="title">{{item.title}}</ion-text>
             </div>

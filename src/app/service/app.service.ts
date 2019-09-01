@@ -16,7 +16,7 @@ export class AppService {
 
   getItems(): Observable<Item[]> {
     return this.http.get<Item[]>('/api/items').pipe(
-      tap(data => console.log(data)), // eyeball results in the console
+      // tap(data => console.log(data)), // eyeball results in the console
       map(items => items.sort(sortByIdDesc)),
       catchError(this.handleError)
     );
