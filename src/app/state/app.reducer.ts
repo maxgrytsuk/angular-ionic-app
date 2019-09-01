@@ -42,7 +42,6 @@ export interface State {
 
 
 const ID = () => '_' + Math.random().toString(36).substr(2, 9);
-;
 
 const initialState: State = {
   progressIndex: 0,
@@ -56,26 +55,16 @@ const initialState: State = {
     isSelected: false,
   },
   itemType: 'logbook',
-  items: [
-    {
-      id: ID(),
-      type: 'logbook',
-      title: 'Give water every two hours',
-      description: 'Needs to drink a water every two hour',
-      isChecked: false
-    },
-    {
-      id: ID(),
-      type: 'carePlan',
-      title: 'Shower',
-      description: 'Shower every two hours',
-      isChecked: false
-    }
-  ]
+  items: []
 };
 
 const appReducer = createReducer(
   initialState,
+  on(AppActions.getItemsSuccess,
+    (state, { items }) => ({
+      ...state,
+      items
+    })),
   on(AppActions.setProgress,
     state => ({
       ...state,

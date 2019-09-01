@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ModalController } from '@ionic/angular';
 
-import { State, ProgressType, Items, PROGRESS, Item } from '../state/app.reducer';
+import { State, ProgressType, PROGRESS, Item } from '../state/app.reducer';
 import * as AppActions from '../state/app.actions';
 import * as fromApp from '../state/app.selectors';
 
@@ -29,7 +29,7 @@ export class HomePage implements OnInit {
   finishedTime$: Observable<string>;
   isFinishedSelected$: Observable<boolean>;
   currentDate$: Observable<string>;
-  items$: Observable<Items>;
+  items$: Observable<Array<Item>>;
   dialogShown: boolean;
 
 
@@ -39,6 +39,7 @@ export class HomePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.store.dispatch(AppActions.getItems());
     this.progress = PROGRESS;
     this.progressIndex$ = this.store.pipe(select(fromApp.getProgressIndex));
     this.startedTime$ = this.store.pipe(select(fromApp.getStartedTime));
