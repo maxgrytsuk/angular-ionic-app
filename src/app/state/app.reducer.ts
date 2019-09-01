@@ -118,7 +118,7 @@ const appReducer = createReducer(
     (state, { item }) => {
       return {
         ...state,
-        items: [...state.items, item].sort(sortByIdDesc)
+        items: [...state.items, {...item, title: `${item.title} ${item.id}`}].sort(sortByIdDesc)
       }
     })
 );

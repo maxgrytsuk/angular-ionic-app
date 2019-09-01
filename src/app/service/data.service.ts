@@ -18,7 +18,6 @@ export const generateItems = (count): Array<Item> => {
 }
 export class DataService implements InMemoryDbService {
   createDb() {
-
     const items = generateItems(30);
     return of({ items }).pipe(delay(100));
   }

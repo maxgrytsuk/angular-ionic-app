@@ -16,7 +16,6 @@ import { ModalPage } from '../modal/modal.page';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-
   currentTime: string;
   currentTimeOffset: string;
   currentDate: string;
@@ -40,6 +39,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(AppActions.getItems());
+
     this.progress = PROGRESS;
     this.progressIndex$ = this.store.pipe(select(fromApp.getProgressIndex));
     this.startedTime$ = this.store.pipe(select(fromApp.getStartedTime));
@@ -81,7 +81,14 @@ export class HomePage implements OnInit {
     modal.onDidDismiss().then(data => {
       this.dialogShown = false;
       if (data.data) {
-        this.store.dispatch(AppActions.addItem({item: dummyItem }));
+        this.store.dispatch(AppActions.addItem({
+          item: {
+            type: 'logbook',
+            title: 'Some dummy item title',
+            description: 'Some dummy item description',
+            isChecked: false
+          }
+        }));
       }
     });
     return await modal.present();
@@ -93,9 +100,3 @@ export class HomePage implements OnInit {
 
 }
 
-const dummyItem: NewItem = {
-  type: 'logbook',
-  title: 'Some dummy item title',
-  description: 'Some dummy item description',
-  isChecked: false
-}
