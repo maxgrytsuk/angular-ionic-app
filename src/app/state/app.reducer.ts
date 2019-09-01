@@ -23,6 +23,9 @@ export interface Item {
   isChecked: boolean;
 };
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+export type NewItem = Omit<Item, 'id'>;
+
 export const PROGRESS: Array<ProgressType> = ['In progress', 'Done', 'Planned'];
 
 export interface State {
@@ -39,9 +42,6 @@ export interface State {
   itemType: ItemType;
   items: Array<Item>;
 }
-
-
-const ID = () => '_' + Math.random().toString(36).substr(2, 9);
 
 const initialState: State = {
   progressIndex: 0,
@@ -111,20 +111,13 @@ const appReducer = createReducer(
         isSelected: !state.finished.isSelected
       }
     })),
-  on(AppActions.addItem,
-    state => ({
-      ...state,
-      items: [
-        ...state.items,
-        {
-          id: ID(),
-          type: 'logbook',
-          title: 'Some new item title',
-          description: 'Some new item description',
-          isChecked: false
-        }
-      ]
-    })),
+  on(AppActions.addItemSuccess,
+    (state, { item }) => {
+      return {
+        ...state,
+        items: [...state.items, item]
+      }
+    })
 );
 
 export function reducer(state: State | undefined, action: Action) {

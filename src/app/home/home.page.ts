@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { ModalController } from '@ionic/angular';
 
-import { State, ProgressType, PROGRESS, Item } from '../state/app.reducer';
+import { State, ProgressType, PROGRESS, Item, NewItem } from '../state/app.reducer';
 import * as AppActions from '../state/app.actions';
 import * as fromApp from '../state/app.selectors';
 
@@ -81,7 +81,7 @@ export class HomePage implements OnInit {
     modal.onDidDismiss().then(data => {
       this.dialogShown = false;
       if (data.data) {
-        this.store.dispatch(AppActions.addItem());
+        this.store.dispatch(AppActions.addItem({item: dummyItem }));
       }
     });
     return await modal.present();
@@ -91,4 +91,11 @@ export class HomePage implements OnInit {
     this.store.dispatch(AppActions.setItemType({ itemType: $event.detail.value }));
   }
 
+}
+
+const dummyItem: NewItem = {
+  type: 'logbook',
+  title: 'Some dummy item title',
+  description: 'Some dummy item description',
+  isChecked: false
 }

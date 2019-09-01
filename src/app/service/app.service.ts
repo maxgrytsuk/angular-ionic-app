@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Item } from '../state/app.reducer';
+import { Item, NewItem } from '../state/app.reducer';
 import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -12,7 +12,19 @@ export class AppService {
 
   getItems(): Observable<Item[]> {
     return this.http.get<Item[]>('/api/items').pipe(
-      // tap(data => console.log(data)), // eyeball results in the console
+      tap(data => console.log(data)), // eyeball results in the console
+      catchError(this.handleError)
+    );
+  }
+
+  addItem(item: NewItem): Observable<Item> {
+    return this.http.post<Item>('/api/items', item).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  removeItem(item: Item): Observable<Item> {
+    return this.http.delete<Item>(`/api/items/${item.id}`).pipe(
       catchError(this.handleError)
     );
   }
