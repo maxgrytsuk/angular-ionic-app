@@ -22,7 +22,7 @@ export interface Item {
   title: string;
   description: string;
   isChecked: boolean;
-};
+}
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type NewItem = Omit<Item, 'id'>;
