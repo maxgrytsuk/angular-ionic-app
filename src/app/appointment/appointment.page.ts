@@ -11,11 +11,11 @@ import * as fromApp from '../state/app.selectors';
 import { ModalPage } from '../modal/modal.page';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-appointment',
+  templateUrl: 'appointment.page.html',
+  styleUrls: ['appointment.page.scss'],
 })
-export class HomePage implements OnInit {
+export class AppointmentPage implements OnInit {
   currentTime: string;
   currentTimeOffset: string;
   currentDate: string;
@@ -97,6 +97,8 @@ export class HomePage implements OnInit {
   segmentChanged($event) {
     this.store.dispatch(AppActions.setItemType({ itemType: $event.detail.value }));
   }
+
+  trackByItems(index: number, item: Item): number { return item.id; }
 
 }
 

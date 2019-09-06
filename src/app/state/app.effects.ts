@@ -37,7 +37,7 @@ export class AppEffects {
       ofType(AppActions.removeItem),
       mergeMap(action =>
         this.appService.removeItem( action.itemToRemove ).pipe(
-          map((item) => AppActions.removeItemSuccess()),
+          map((item) => AppActions.removeItemSuccess({itemToRemove: action.itemToRemove})),
           catchError(err => of(AppActions.removeItemError({ err })))
         )
       )

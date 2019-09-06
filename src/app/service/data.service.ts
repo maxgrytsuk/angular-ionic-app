@@ -4,7 +4,7 @@ import { delay } from 'rxjs/operators';
 import { Item } from '../state/app.reducer';
 
 
-export const generateItems = (count): Array<Item> => {
+export const generateItems = (count: number): Array<Item> => {
   return new Array(count).fill(0).map((e, i) => {
     const type = Math.random() > .5 ? 'logbook' : 'carePlan';
     return {

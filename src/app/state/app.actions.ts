@@ -17,7 +17,7 @@ export const addItemError = createAction('[App Page] Add Item Error', props<{err
 export const setItemType = createAction('[App Page] Set Item Type', props<{itemType: ItemType}>());
 export const setItemChecked = createAction('[App Page] Set Item Checked', props<{checkedItem: Item}>());
 export const removeItem = createAction('[App Page] Remove Item', props<{itemToRemove: Item}>());
-export const removeItemSuccess = createAction('[App Page] Remove Item Success');
+export const removeItemSuccess = createAction('[App Page] Remove Item Success', props<{itemToRemove: Item}>());
 export const removeItemError = createAction('[App Page] Remove Item Error', props<{err: string}>());
 
 

@@ -125,7 +125,7 @@
           </ion-segment-button>
         </ion-segment>
 
-        <div *ngFor="let item of (items$ | async)" class="item-block">
+        <div *ngFor="let item of (items$ | async); trackBy: trackByItems" class="item-block">
           <div class="item">
             <div class="title-block" (click)="onSetChecked(item)">
               <div class="checkbox">

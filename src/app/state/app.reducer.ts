@@ -99,7 +99,7 @@ const appReducer = createReducer(
         })
       }
     }),
-  on(AppActions.removeItem,
+  on(AppActions.removeItemSuccess,
     (state, { itemToRemove }) => {
       return {
         ...state,
